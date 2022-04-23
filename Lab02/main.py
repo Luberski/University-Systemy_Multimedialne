@@ -68,48 +68,48 @@ def save_video(output):
 
 save_video("kamera.avi")
 
-# def check_audio_devices():
-#     audio = pyaudio.PyAudio()
-#     numdevices = audio.get_device_count()
-#     # for i in range(0, numdevices):
-#         # print(audio.get_device_info_by_index(i))
-#     return audio
+def check_audio_devices():
+    audio = pyaudio.PyAudio()
+    numdevices = audio.get_device_count()
+    # for i in range(0, numdevices):
+        # print(audio.get_device_info_by_index(i))
+    return audio
 
-# audio = check_audio_devices()
+audio = check_audio_devices()
 
-# stream = audio.open(input_device_index =1,
-#                     output_device_index=3,
-#                     format=FORMAT,
-#                     channels=CHANNELS,
-#                     rate=FS,
-#                     input=True,
-#                     output=True,
-#                     frames_per_buffer=CHUNK,
-#                     stream_callback=process_data
-#                     )
+stream = audio.open(input_device_index =1,
+                    output_device_index=3,
+                    format=FORMAT,
+                    channels=CHANNELS,
+                    rate=FS,
+                    input=True,
+                    output=True,
+                    frames_per_buffer=CHUNK,
+                    stream_callback=process_data
+                    )
 
-# global Frame_buffer,frame_idx, delay
-# N=10
-# frame_idx=0
-# Frame_buffer = np.zeros(((N+1)*FS,2))
-# delay_len = 0.2
-# delay_size = (CHUNK * int(FS / CHUNK * delay_len))
-# delay = np.zeros( delay_size, dtype=np.int16)
+global Frame_buffer,frame_idx, delay
+N=10
+frame_idx=0
+Frame_buffer = np.zeros(((N+1)*FS,2))
+delay_len = 0.2
+delay_size = (CHUNK * int(FS / CHUNK * delay_len))
+delay = np.zeros( delay_size, dtype=np.int16)
 
-# stream.start_stream()
-# while stream.is_active():
-#     time.sleep(N)
-#     stream.stop_stream()
-# stream.close()
+stream.start_stream()
+while stream.is_active():
+    time.sleep(N)
+    stream.stop_stream()
+stream.close()
 
-# ## zapis do pliku
-# sf.write('nazwa.wav', Frame_buffer.astype(np.int16), FS)
+## zapis do pliku
+sf.write('nazwa.wav', Frame_buffer.astype(np.int16), FS)
 
-# ox = np.arange(0, len(Frame_buffer))
-# ox = ox / FS
+ox = np.arange(0, len(Frame_buffer))
+ox = ox / FS
 
-# plt.subplot(2,1,1)
-# plt.plot(ox,Frame_buffer[:,0])
-# plt.subplot(2,1,2)
-# plt.plot(ox,Frame_buffer[:,1])
-# plt.show()
+plt.subplot(2,1,1)
+plt.plot(ox,Frame_buffer[:,0])
+plt.subplot(2,1,2)
+plt.plot(ox,Frame_buffer[:,1])
+plt.show()
