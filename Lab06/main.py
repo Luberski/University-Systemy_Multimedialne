@@ -1,62 +1,45 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
-# np.issubdtype(x.dtype,np.integer)
-# np.issubdtype(x.dtype,np.floating)
+# Test strumieniowa
+t1 = np.array([1,1,1,1,2,1,1,1,1,2,1,1,1,1])
+t9 = np.array([1,1,1,1,1,2,2,2,3,4,5,6,6,6,6,1])
+t2 = np.array([1,2,3,1,2,3,1,2,3])
+t3 = np.array([5,1,5,1,5,5,1,1,5,5,1,1,5])
+t4 = np.array([-1,-1,-1,-5,-5,-3,-4,-2,1,2,2,1])
+t5 = np.zeros((1,520))
+t6 = np.arange(0,521,1)
 
-# R=np.random.rand(5,5)
-# Z=zeros(R.shape)
-# idx1=R<0.25
-# Z[idx1]=1
-# print(R)
-# print(Z)
+# Test 4tree & strumieniowa
+t7 = np.eye(7)
+t8 = np.dstack([np.eye(7),np.eye(7),np.eye(7)])
 
-A = 87.6
+print(t2)
 
-x=np.linspace(-1,1,1000)
-a1 = np.round(np.linspace(0,255,255,dtype=np.uint8))
-a2 = np.round(np.linspace(np.iinfo(np.int32).min,np.iinfo(np.int32).max,1000,dtype=np.int32))
-
-def A_Law_compress(x):
-    for i in range(len(x)):
-        if abs(x[i]) < (1/A):
-            x[i] = np.sign(x[i])*(A*abs(x[i]))/(1+np.log(A))
+def encode_rle(arr):
+    out = arr.flatten()
+    counter = 0
+    symbols = []
+    # result = np.array([]).astype(np.uint8)
+    result = np.array([])
+    for i in range(len(out)):
+        if out[i] == out[i - 1]:
+            counter += 1
         else:
-            x[i] = np.sign(x[i])*(1+np.log(A*abs(x[i]))) / (1+np.log(A))
+            symbols.append(counter)
+            symbols.append(out[i - 1])
+            counter = 1
+    symbols.append(counter)
+    symbols.append(out[-1])
+    result = np.array(symbols)
+    return result
 
-    return x
+def decode_rle(arr):
+    decoded = np.array([])
+    for i in range(0, len(arr), 2):
+        # decoded = np.append(decoded, np.ones(arr[i], dtype=np.uint8) * arr[i + 1])
+        decoded = np.append(decoded, np.ones(arr[i]) * arr[i + 1])
+    return decoded
 
-def A_Law_decompress(y):
-    for i in range(len(y)):
-        if abs(y[i]) < (1/(1+np.log(A))):
-            y[i] = np.sign(y[i])*((np.log(A)+1)/(A))
-        else:
-            y[i] = np.sign(y[i])*(1+np.log(A*abs(y[i]))) / (1+np.log(A))
-
-    return y
-
-def quantize(x, n):
-    min = 0
-    max = 0
-
-    if(np.issubdtype(x.dtype,np.floating)):
-        min = -1
-        max = 1
-    elif(np.issubdtype(x.dtype,np.integer)):
-        min = np.iinfo(np.int32).min
-        max = np.iinfo(np.int32).max
-
-    x = (x-min)/(max-min)
-    x = np.round(x*(n-1))
-    x = x/n
-    x = x*(max-min) + min
-    return x
-
-# print(quantize(x, 8))
-print(A_Law(x))
-
-y = A_Law(x)
-x = np.linspace(0, 1000, 1000)
-
-plt.plot(x, y)
-plt.show()
+encode_rle(t9)
