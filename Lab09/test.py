@@ -86,4 +86,3 @@ print(f"encoded_test_arr: {encoded_test_arr}")
 decoded_test_arr = RLE_decode(encoded_test_arr, shape=test_arr.shape)
 print(f"decoded_test_arr = {decoded_test_arr}")
 # print(f"Compression ratio: {get_size(test_arr) / get_size(encoded_test_arr)}")
-
