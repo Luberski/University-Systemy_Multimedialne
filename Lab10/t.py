@@ -21,9 +21,8 @@ def makeManyRevievs(dataToChange):
     
     new_data1 = fakeDataFrame(dataToChange)
     new_data2 = fakeDataFrame(dataToChange)
-
-    new_data1.columns = new_data1.columns.str.replace('0', '1')
-    new_data2.columns = new_data2.columns.str.replace('0', '2')
+    new_data1.columns = new_data1.columns.str.replace('_0', '_1')
+    new_data2.columns = new_data2.columns.str.replace('_0', '_2')
 
     new_data = pd.concat([new_data1, new_data2], axis=1)
     new_data = pd.concat([dataToChange, new_data], axis=1)
