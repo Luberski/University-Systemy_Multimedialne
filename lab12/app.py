@@ -9,16 +9,6 @@ face_cascade.load(cv2.samples.findFile("haarcascade_frontalface_alt.xml"))
 
 imgprocess = 0
 
-def contact():
-    global imgprocess
-    if request.method == 'POST':
-        if request.form['submit_button'] == 'Grayscale':
-            imgprocess = 1
-        elif request.form['submit_button'] == 'Do Something Else':
-            pass # do something else
-        else:
-            pass # unknown
-
 def gen_frames(video):
     while True:
         success, image = video.read()
@@ -56,8 +46,17 @@ def gen_frames(video):
             break
 
 
-@app.route("/video_feed")
+@app.route("/video_feed", methods=["GET", "POST"])
 def video_feed():
+    global imgprocess
+    if request.method == 'POST':
+        if request.form['submit_button'] == 'Grayscale':
+            imgprocess = 1
+            index()
+        elif request.form['submit_button'] == 'Normal':
+            imgprocess = 0
+        else:
+            pass # unknownszs
     return Response(
         gen_frames(video), mimetype="multipart/x-mixed-replace; boundary=frame"
     )
