@@ -21,6 +21,8 @@ def gen_frames(video):
             if(imgprocess > 0):
                 if(imgprocess == 1):
                     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                if(imgprocess == 2):
+                    image = cv2.fastNlMeansDenoisingColored(image,None,10,10,7,21)
 
             for (x, y, w, h) in faces:
                 center = (x + w // 2, y + h // 2)
@@ -54,6 +56,8 @@ def video_feed():
             imgprocess = 1
             index()
         elif request.form['submit_button'] == 'Normal':
+            imgprocess = 0
+        elif request.form['submit_button'] == 'Denoise':
             imgprocess = 0
         else:
             pass # unknownszs
