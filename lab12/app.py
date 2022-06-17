@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 import cv2
 
 app = Flask(__name__)
@@ -7,6 +7,17 @@ video = cv2.VideoCapture(0)
 face_cascade = cv2.CascadeClassifier()
 face_cascade.load(cv2.samples.findFile("haarcascade_frontalface_alt.xml"))
 
+imgprocess = 0
+
+def contact():
+    global imgprocess
+    if request.method == 'POST':
+        if request.form['submit_button'] == 'Grayscale':
+            imgprocess = 1
+        elif request.form['submit_button'] == 'Do Something Else':
+            pass # do something else
+        else:
+            pass # unknown
 
 def gen_frames(video):
     while True:
@@ -16,6 +27,10 @@ def gen_frames(video):
             frame_gray = cv2.equalizeHist(frame_gray)
 
             faces = face_cascade.detectMultiScale(frame_gray)
+
+            if(imgprocess > 0):
+                if(imgprocess == 1):
+                    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
             for (x, y, w, h) in faces:
                 center = (x + w // 2, y + h // 2)
