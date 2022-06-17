@@ -58,7 +58,7 @@ def video_feed():
         elif request.form['submit_button'] == 'Normal':
             imgprocess = 0
         elif request.form['submit_button'] == 'Denoise':
-            imgprocess = 0
+            imgprocess = 2
         else:
             pass # unknownszs
     return Response(
