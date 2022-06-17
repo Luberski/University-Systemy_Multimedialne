@@ -48,8 +48,8 @@ def gen_frames(video):
             break
 
 
-@app.route("/video_feed", methods=["GET", "POST"])
-def video_feed():
+@app.route("/video", methods=["GET", "POST"])
+def video():
     global imgprocess
     if request.method == 'POST':
         if request.form['submit_button'] == 'Grayscale':

@@ -11,18 +11,15 @@
   </head>
   <body>
     <div class="container mx-auto max-w-xl">
-      <h1 class="my-6 text-xl font-bold">Streaming Test</h1>
-      <div class="w-full rounded-md shadow-md bg-blue-200 p-2">
-        <img src="{{ url_for('video_feed') }}" alt="stream" />
+      <div class="w-full rounded-lg shadow-md bg-blue-200 p-2">
+        <img src="{{ url_for('video') }}"/>
       </div>
-      <form action="{{ url_for('video_feed') }}" target="dummyframe" method="POST">
+      <form action="{{ url_for('video') }}" target="dummyframe" method="POST">
         <input class="mt-1 bg-blue-500 hover:bg-blue-200 text-white font-bold py-2 px-4 rounded" type="submit" name="submit_button" value="Normal">
         <input class="mt-1 bg-blue-500 hover:bg-blue-200 text-white font-bold py-2 px-4 rounded" type="submit" name="submit_button" value="Grayscale">
         <input class="mt-1 bg-blue-500 hover:bg-blue-200 text-white font-bold py-2 px-4 rounded" type="submit" name="submit_button" value="Denoise">
       </form>
       <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-      <!-- <input type="submit" name="submit_button" value="Grayscale"> -->
-      <!-- <input type="submit" name="submit_button" value="Do Something Else"> -->
     </div>
   </body>
 </html>
